@@ -1,0 +1,347 @@
+<!doctype html>
+<html class="h-full" lang="de">
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="./styles.css" >
+  <title>SkillUncapped</title>
+</head>
+<body class ="h-full">
+
+<div class="min-h-full">
+
+
+  <div class="py-10">
+    <header>
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <h1 class="text-3xl font-bold leading-tight tracking-tight text-gray-900">Skill Cap Paywall Killer</h1>
+      </div>
+    </header>
+    <main>
+      <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+
+      
+      
+      
+        <div class="px-4 py-8 sm:px-0">
+          <div  class="h-fit rounded-3xl p-4 border-4 border-dashed border-gray-200 relative">
+            
+            <label class="absolute top-0 right-0" id="status"></label>
+            
+            <div id="video_area" class="flex gap-4 mb-4 items-end">
+             
+              <div>
+              
+              <label for="videoUrl" class="block text-sm font-medium text-gray-700">Enter URL</label>
+              <div class="mt-1 flex rounded-md shadow-sm max-w-xs">
+                <div class="relative flex flex-grow items-stretch focus-within:z-10">
+                  <input type="text" name="videoUrl" id="videoUrl" onkeyup="if (event.key ==='Enter') stream()" class="block w-full rounded-none rounded-l-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="skillcap.com/">
+                </div>
+                <button onclick="stream()" type="button" class="relative -ml-px inline-flex items-center space-x-2 rounded-r-md border border-gray-300 bg-gray-50 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                  <span>Stream</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="transparent" class="w-5 h-5 text-gray-400">
+                    <path fill-rule="evenodd" d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z" clip-rule="evenodd" />
+                  </svg>                
+                </button>
+              </div>
+              
+              </div>
+              
+              <div>
+                <label for="resolution" class="block text-sm font-medium text-gray-700">Resolution</label>
+                <select id="resolution" name="resolution" class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
+                  <option value="1500">720p</option>
+                  <option value="2500">1080p</option>
+                  <option value="4500" selected>4k</option>
+                </select>
+              </div>
+              
+              
+             <div>
+              <label for="videoName" class="block text-sm font-medium text-gray-700">File Name</label>
+              <div class="mt-1">
+                <input type="text" name="videoName" id="videoName" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="Video Name">
+              </div>
+            </div>
+            
+            <div>
+                <label for="videoSpeed" class="block text-sm font-medium text-gray-700">Video Speed</label>
+                <select id="videoSpeed" name="videoSpeed" onchange="changeSpeed()" class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
+                  <option value="0.5">0.5x</option>
+                  <option value="1" selected>Normal</option>
+                  <option value="1.5">1.5x</option>
+                  <option value="2">2x</option>
+                </select>
+              </div>
+              
+            
+            </div>
+            
+          
+            <div>
+              <video class="aspect-video w-full rounded-lg shadow-lg shadow-black/50" id="video" controls autoplay crossorigin="anonymous"></video>
+              <button id="rewindBtn" class="text-white flex items-center justify-center rounded-full" input="button" style="position: absolute; z-index: 1; bottom: 100px; left: 35px;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M21 16.811c0 .864-.933 1.405-1.683.977l-7.108-4.062a1.125 1.125 0 010-1.953l7.108-4.062A1.125 1.125 0 0121 8.688v8.123zM11.25 16.811c0 .864-.933 1.405-1.683.977l-7.108-4.062a1.125 1.125 0 010-1.953L9.567 7.71a1.125 1.125 0 011.683.977v8.123z" />
+                </svg>
+              </button>
+              <button id="skipBtn" class="text-white flex items-center justify-center rounded-full" input="button" style="position: absolute; z-index: 1; bottom: 100px; right: 35px;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 8.688c0-.864.933-1.405 1.683-.977l7.108 4.062a1.125 1.125 0 010 1.953l-7.108 4.062A1.125 1.125 0 013 16.81V8.688zM12.75 8.688c0-.864.933-1.405 1.683-.977l7.108 4.062a1.125 1.125 0 010 1.953l-7.108 4.062a1.125 1.125 0 01-1.683-.977V8.688z" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        
+        
+        
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+</body>
+
+<script>
+
+              const videoHoverArea = document.getElementById('video');
+              const rewindBtn = document.getElementById('rewindBtn');
+              const skipBtn = document.getElementById('skipBtn');
+
+              videoHoverArea.addEventListener('mouseover', function() {
+                rewindBtn.classList.remove('opacity-50');
+                skipBtn.classList.remove('opacity-50');
+              });
+
+              videoHoverArea.addEventListener('mouseout', function() {
+                rewindBtn.classList.add('opacity-50');
+                skipBtn.classList.add('opacity-50');
+              });
+
+              // Grab video element
+              const video = document.getElementById('video');
+
+              // Add event listener to rewind button
+              document.getElementById('rewindBtn').addEventListener('click', () => {
+                // Rewind the video by 10 seconds
+                video.currentTime -= 10;
+              });
+
+              // Add event listener to skip button
+              document.getElementById('skipBtn').addEventListener('click', () => {
+                // Fast forward the video by 10 seconds
+                video.currentTime += 10;
+              });
+            function changeSpeed() {
+              const videoSpeed = document.getElementById('videoSpeed').value;
+              video.playbackRate = videoSpeed;
+            }
+    
+document.addEventListener('keydown', function(event) {
+  if(event.shiftKey && event.key === "/") {
+    event.preventDefault();
+    document.getElementById('videoUrl').focus();
+  }
+});
+
+  var hls = null;
+
+  if (Hls.isSupported()) {
+    var hlsjsConfig = {
+      "maxBufferSize": 0,
+      "maxBufferLength": 30,
+      "startPosition": 0
+    }
+    hls = new Hls(hlsjsConfig);
+    hls.on(Hls.Events.MANIFEST_PARSED, function () {
+      video.play();
+    });
+  }
+
+  const rgx = /([a-z0-9]{10})(:?\/|$)/g;
+
+  async function stream() {
+    if (hls == null) {
+      alert("HLS not supported, please use a modern browser such as Chrome");
+      return;
+    }
+
+    let rawUrl = document.getElementById("videoUrl").value;
+    rawUrl = rawUrl.replace(/\/[^/]*$/, '');
+    let ids = [];
+    let match = null;
+
+    while ((match = rgx.exec(rawUrl)) !== null) {
+      ids.push(match[1]);
+    }
+
+    if (ids.length < 1) {
+      alert("Invalid URL");
+      return;
+    }
+
+    const videoId = rawUrl.includes("browse3") ? ids[0] : ids[ids.length - 1];
+    let statusLabel = document.getElementById("status");
+
+    console.log(`Video ID ist ${videoId}`);
+    console.log("Suche nach Fileparts...");
+    let last = 0;
+    let jump = true;
+
+    for (let i = 300; i <= 1000; i++) {
+      if (i == 1000) {
+        alert("Finde keine Fileparts, versuchs nochmal");
+        return;
+      }
+
+      if (i == 0) i = 1;
+
+      const url = `https://d13z5uuzt1wkbz.cloudfront.net/${videoId}/HIDDEN4500-${String(i).padStart(5, "0")}.ts`;
+      console.log(`Teste ${url}`);
+      statusLabel.innerText = `Suche Finalpart; Teste ${i}...`;
+      try {
+        const resp = await fetch(url, { method: 'HEAD' });
+        if (resp.status === 403) {
+          if (i >= 50 && i % 50 === 0 && jump) {
+            last = i;
+            jump = true;
+            i -= 51;
+            continue;
+          }
+
+          break;
+        }
+        last = i;
+        jump = false;
+      } catch (e) {
+        alert("Der Abruf ist fehlgeschlagen. Bitte installiere eine Cross-Origin-Deaktivierungserweiterung für Ihren Browser oder überprüfen Sie Ihre Internetverbindung.");
+        return;
+      }
+    }
+
+    statusLabel.innerText = "";
+
+    let data = "#EXTM3U\n#EXT-X-PLAYLIST-TYPE:VOD\n#EXT-X-TARGETDURATION:10";
+    for (let i = 0; i <= last; i++) {
+      data += `#EXTINF:10,\nhttps://d13z5uuzt1wkbz.cloudfront.net/${videoId}/HIDDEN4500-${String(i).padStart(5, "0")}.ts\n`
+    }
+
+    console.log(data);
+
+    // Load the media for streaming
+    hls.loadSource("data:application/x-mpegURL;base64," + btoa(data));
+    hls.attachMedia(video);
+
+   // Check if a previous download button exists, and if so, remove it
+   const existingButton = document.querySelector(".dwnBtn");
+   if (existingButton) existingButton.remove();
+
+   // Add a download button for users to download the media
+   const downloadButton = document.createElement("a");
+   downloadButton.classList.add("dwnBtn", "inline-flex", "items-center", "rounded-md", "h-fit", "border", "border-transparent", "bg-sky-600", "px-4", "py-2", "text-sm", "font-medium", "text-white", "shadow-sm", "hover:bg-sky-700", "focus:outline-none", "focus:ring-2", "focus:ring-sky-500", "focus:ring-offset-2");
+   downloadButton.textContent = "Download Media";
+    downloadButton.addEventListener("click", downloadAndMergeVideo);
+   const videoArea = document.getElementById("video_area");
+   // Append the download button to the video area
+   videoArea.appendChild(downloadButton);
+
+    // Add a click event listener to the download button
+    downloadButton.addEventListener("click", function () {
+      // Clear the player by stopping and unloading it
+      hls.stopLoad();
+      hls.detachMedia();
+
+      // Remove the download button
+      document.body.removeChild(downloadButton);
+      document.getElementById("videoUrl").value = "";
+    });
+  }
+
+  async function downloadAndMergeVideo() {
+    const rawUrl = document.getElementById("videoUrl").value.replace(/\/[^/]*$/, '');
+    const selectedResolution = document.getElementById("resolution").value;
+    const videoName = document.getElementById("videoName").value;
+
+    if (!videoName) {
+      document.getElementById("status").innerText = "Please enter a video name.";
+      return;
+    }
+
+    let ids = [];
+    let match = null;
+
+    while ((match = rgx.exec(rawUrl))) {
+      ids.push(match[1]);
+    }
+
+    if (ids.length < 1) {
+      document.getElementById("status").innerText = "PLS INSERT LINK AND DOWNLOAD";
+      return;
+    }
+
+    const videoId = rawUrl.includes("browse3") ? ids[0] : ids[ids.length - 1];
+
+    // Determine the last .ts file index (adjust the range as needed)
+    const lastFileIndex = 1000; // Assuming the last .ts file index is 1000, adjust as needed
+
+    // Create an array to hold the URLs of all .ts files
+    const tsUrls = [];
+
+    // Generate download links for all .ts files and collect their URLs
+    for (let i = 1; i <= lastFileIndex; i++) {
+      const tsUrl = `https://d13z5uuzt1wkbz.cloudfront.net/${videoId}/HIDDEN${selectedResolution}-${String(i).padStart(5, "0")}.ts`;
+      tsUrls.push(tsUrl);
+    }
+
+    // Reset status to "IN PROGRESS"
+    document.getElementById("status").innerText = "IN PROGRESS";
+
+    // Download all .ts files and store their content in an array
+    const tsFileContents = [];
+
+    for (const [index, tsUrl] of tsUrls.entries()) {
+      try {
+        const resp = await fetch(tsUrl);
+        if (resp.status === 200) {
+          const tsData = await resp.arrayBuffer();
+          tsFileContents.push(tsData);
+        } else {
+          console.warn(`Failed to download ${tsUrl}, finishing download.`);
+          break; // Stop downloading if any error occurs
+        }
+      } catch (e) {
+        console.warn(`Fetch failed for ${tsUrl}, finishing download.`);
+        break; // Stop downloading if any error occurs
+      }
+    }
+
+    if (tsFileContents.length === 0) {
+      document.getElementById("status").innerText = "No valid .ts files were downloaded.";
+      return;
+    }
+
+    // Merge all the .ts files into a single video using FFmpeg
+    const mergedVideoBlob = new Blob(tsFileContents, { type: 'video/mp2t' });
+
+    // Create a download link for the merged video
+    const downloadLink = document.createElement('a');
+    downloadLink.href = URL.createObjectURL(mergedVideoBlob);
+    downloadLink.download = `${videoName}.ts`; // Use the specified video name
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+
+    // Display "DONE" with a pop-out animation
+    document.getElementById("status").innerText = "DONE";
+    setTimeout(() => {
+      document.getElementById("status").innerText = ""; // Clear status
+    }, 1000);
+  }
+
+</script>
+</body>
+
+</html>
