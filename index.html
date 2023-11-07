@@ -5,8 +5,40 @@
   <meta charset="utf-8">
   <link rel="stylesheet" href="./styles.css" >
   <title>SkillUncapped</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js"></script>
 </head>
 <body class ="h-full">
+
+
+<div id="extensionGuide" class="relative z-10 opacity-0" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+  <div class="fixed inset-0 bg-gray-500/75 backdrop-blur-xl transition-all"></div>
+
+  <div class="fixed inset-0 z-10 overflow-y-auto">
+    <div id="modalPanel" class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+      <div class="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
+        <div>
+          <div class="mt-3 text-left sm:mt-5">
+            <h3 class="text-lg font-medium leading-6 text-gray-900" id="modal-title">Berechtigungen erforderlich</h3>
+            <div class="mt-2 divide-y divide-gray-200 space-y-4">
+              <p class="text-sm text-gray-500">
+              Damit alles reibungslos läuft, müssen wir die CORS-Einstellungen aktivieren. Befolgen Sie aus diesem einfachen Grund diese Schritte:
+              <ol class="text-sm text-gray-500 list-decimal px-4">
+                <li >Verwenden Sie einen modernen Browser wie Chrome.</li>
+                <li >Installieren Sie eine CORS Allow-Erweiterung wie: <a a class="decoration-solid underline text-blue-400" href="https://chrome.google.com/webstore/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf" target="_blank">https://chrome.google.com/webstore/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf</a></li>
+                <li >Fügen Sie diese Website der Whitelist der Erweiterung hinzu.</li>
+                <li >Fettisch!</li>
+              </ol>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="mt-5 sm:mt-6">
+          <button onClick="closeModal()" type="button" class="inline-flex w-full justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-sm">Okay</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="min-h-full">
 
@@ -14,7 +46,7 @@
   <div class="py-10">
     <header>
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <h1 class="text-3xl font-bold leading-tight tracking-tight text-gray-900">Skill Cap Paywall Killer</h1>
+        <h1 class="text-3xl font-bold leading-tight tracking-tight text-gray-900">SkillUncapped</h1>
       </div>
     </header>
     <main>
@@ -101,6 +133,8 @@
     </main>
   </div>
 </div>
+
+<button onClick="startOnboarding()" class="absolute bottom-5 bg right-5 w-10 rounded-full hover:bg-blue-400 hover:scale-105 duration-200 transition-all h-10 bg-blue-500 outline outline-blue-200/75 outline-offset-4 hover:outline-offset-2 text-white">?</button>
 
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </body>
@@ -292,7 +326,7 @@ document.addEventListener('keydown', function(event) {
 
     // Generate download links for all .ts files and collect their URLs
     for (let i = 1; i <= lastFileIndex; i++) {
-      const tsUrl = `https://d13z5uuzt1wkbz.cloudfront.net/${videoId}/HIDDEN${selectedResolution}-${String(i).padStart(5, "0")}.ts`;
+      const tsUrl = `https://d13z5uuzt1wkbz.cloudfront.net/${videoId}/HIDDEN${edResolution}-${String(i).padStart(5, "0")}.ts`;
       tsUrls.push(tsUrl);
     }
 
@@ -340,6 +374,69 @@ document.addEventListener('keydown', function(event) {
       document.getElementById("status").innerText = ""; // Clear status
     }, 1000);
   }
+
+
+
+              let onboardingStatus = localStorage.getItem("onboardingStatus");
+              const extensionFrame = document.getElementById("extensionGuide");
+              if (onboardingStatus) extensionFrame.classList.add("hidden");
+
+              function startOnboarding() {
+                if (extensionFrame.classList.contains("hidden")) extensionFrame.classList.remove("hidden")
+                gsap.fromTo('#extensionGuide',
+                {
+                  opacity: 0, // From: "opacity-0"
+                },
+                {
+                  opacity: 1, // To: "opacity-100"
+                  duration: 0.2, // "duration-300"
+                  ease: 'power1.out', // "ease-out"
+                }
+                )
+                gsap.fromTo("#modalPanel", {
+                  opacity: 0,
+                  scale: 0.95
+                }, {
+                  opacity: 1,
+                  translateY: 0,
+                  scale: 1,
+                  duration: 0.3,
+                  ease: "ease-out"
+                });
+                localStorage.setItem("onboardingStatus", "done")
+              }
+
+              if (!onboardingStatus) {
+                console.log("no status set, starting onboarding");
+                startOnboarding();
+              }
+
+async function closeModal() {
+  gsap.fromTo('#extensionGuide',
+  {
+    opacity: 1 // From: "opacity-100"
+  },
+  {
+    opacity: 0, // To: "opacity-0"
+    duration: 0.2, // "duration-200"
+    ease: 'power1.in' // "ease-in"
+  }
+  )
+  gsap.fromTo("#modalPanel", {
+    opacity: 1,
+    scale: 1
+  }, {
+    opacity: 0,
+    scale: 0.95,
+    duration: 0.2,
+    ease: "ease-in"
+  })
+  setTimeout(() => {
+    document.getElementById("extensionGuide").classList.add("hidden")
+  }, 200)
+
+}
+
 
 </script>
 </body>
